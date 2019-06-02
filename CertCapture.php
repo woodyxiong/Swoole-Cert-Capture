@@ -36,5 +36,6 @@ class CertCapture
 //include 'Lib/CertClient.php';
 require_once 'Lib/CertCaptureException.php';
 require_once 'Lib/SslHandshakeData.php';
-$certCapture = new CertCapture("ww1.sinaimg.cn", "218.92.152.11", 443);
+//$certCapture = new CertCapture("ww1.sinaimg.cn", "218.92.152.11", 443);
+$certCapture = new CertCapture("www.qiniu.com", "218.92.152.11", 443);
 $certCapture->getCert();

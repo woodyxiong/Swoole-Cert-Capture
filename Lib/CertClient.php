@@ -45,16 +45,17 @@ class CertClient
     public function receive($client, $data)
     {
         var_dump(bin2hex($data));
+        // todo maybe i can unpack packet by ssl type name and length
     }
 
     public function error($client)
     {
-        echo "error";
+        throw new CertCaptureException("error");
     }
 
     public function close($client)
     {
-        echo "close";
+        throw new CertCaptureException("server closed");
     }
 
 }

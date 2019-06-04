@@ -4,6 +4,20 @@ namespace CertCapture\Lib;
 
 class SslHandshakeData
 {
+
+    /*
+     * when server receive Client Hello
+     * 1. send Server Hello
+     * 2. send Certificate
+     * 3. send Server Key Exchange
+     * 4. send Server Hello Done
+     */
+
+    const HANDSHAKE_FLAG = 22;
+
+    const HANDSHAKE_SERVER_HELLO = 2;
+    const HANDSHAKE_CERTIFICATE = 11;
+
     public static function getClientHello($hostname)
     {
         $hexRecordLayerLength = self::dec2hex(strlen($hostname) + 312, 4);
@@ -51,5 +65,31 @@ class SslHandshakeData
     private static function str2hex($str)
     {
         return bin2hex($str);
+    }
+
+    /**
+     * parse data to cert
+     * @param $data
+     * @return array
+     */
+    public static function parseCert(&$data)
+    {
+        while (1) {
+            // if data length is not enough to parse, return
+            if (strlen($data) < 6) {
+                return [false, ""];
+            }
+            $vars = unpack("c1type/n1version/n1length/c1handshake_type", $data);
+            if (strlen($data) - 5 < $vars['length']) {
+                return [false, ""];
+            }
+            if ($vars['handshake_type'] == self::HANDSHAKE_CERTIFICATE) {
+                $node = new CertificateNode();
+            }
+            var_dump(bin2hex($data));
+            return [false, ""];
+        }
+
+        return [false, ""];
     }
 }

@@ -44,8 +44,8 @@ class CertClient
 
     public function receive($client, $data)
     {
-        var_dump(bin2hex($data));
-        // todo maybe i can unpack packet by ssl type name and length
+        $this->serverHelloData .= $data;
+        [$isGetCert, $cert] = SslHandshakeData::parseCert($this->serverHelloData);
     }
 
     public function error($client)

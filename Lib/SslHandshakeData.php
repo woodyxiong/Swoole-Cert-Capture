@@ -2,9 +2,10 @@
 
 namespace CertCapture\Lib;
 
+use CertCapture\HandshakeNode\CertificateNode;
+
 class SslHandshakeData
 {
-
     /*
      * when server receive Client Hello
      * 1. send Server Hello
@@ -71,6 +72,7 @@ class SslHandshakeData
      * parse data to cert
      * @param $data
      * @return array
+     * @throws CertCaptureException
      */
     public static function parseCert(&$data)
     {
@@ -79,14 +81,30 @@ class SslHandshakeData
             if (strlen($data) < 6) {
                 return [false, ""];
             }
+
             $vars = unpack("c1type/n1version/n1length/c1handshake_type", $data);
             if (strlen($data) - 5 < $vars['length']) {
                 return [false, ""];
             }
-            if ($vars['handshake_type'] == self::HANDSHAKE_CERTIFICATE) {
-                $node = new CertificateNode();
+
+            if (!in_array($vars['handshake_type'], [self::HANDSHAKE_CERTIFICATE,
+                self::HANDSHAKE_SERVER_HELLO])) {
+                throw new CertCaptureException("handshake type error");
             }
-            var_dump(bin2hex($data));
+
+            if ($vars['handshake_type'] == self::HANDSHAKE_CERTIFICATE) {
+                $node = new CertificateNode(substr($data, 5, $vars['length']));
+
+                return [
+                    true,
+                    $node->getSubNodes('certifacatesNode')
+                        ->getSubNodes('certificates')[0]
+                        ->cert
+                ];
+            }
+
+            // cut packet
+            $data = substr($data, $vars['length'] + 5);
             return [false, ""];
         }
 

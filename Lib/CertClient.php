@@ -2,9 +2,6 @@
 
 namespace CertCapture\Lib;
 
-use CertCapture\Lib\SslHandshakeData;
-use CertCapture\Lib\CertCaptureException;
-
 class CertClient
 {
     public $client;
@@ -29,6 +26,10 @@ class CertClient
         $this->client->on('error', array($this, 'error'));
     }
 
+    /**
+     * start client
+     * @throws \CertCapture\Lib\CertCaptureException
+     */
     public function getCert()
     {
         if (!$this->client->connect($this->ip, $this->port, $this->timeout)) {
@@ -42,17 +43,36 @@ class CertClient
         $client->send($data);
     }
 
+    /**
+     * receive and parse when detect handshake packet
+     * @param $client
+     * @param $data
+     * @throws \CertCapture\Lib\CertCaptureException
+     */
     public function receive($client, $data)
     {
         $this->serverHelloData .= $data;
         [$isGetCert, $cert] = SslHandshakeData::parseCert($this->serverHelloData);
+        if ($isGetCert) {
+            echo $cert;
+        }
     }
 
+    /**
+     * error
+     * @param $client
+     * @throws \CertCapture\Lib\CertCaptureException
+     */
     public function error($client)
     {
         throw new CertCaptureException("error");
     }
 
+    /**
+     * server closed
+     * @param $client
+     * @throws \CertCapture\Lib\CertCaptureException
+     */
     public function close($client)
     {
         throw new CertCaptureException("server closed");

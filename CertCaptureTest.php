@@ -4,7 +4,6 @@ namespace CertCapture;
 
 class CertCaptureTest
 {
-
     public static function autoload($class)
     {
         $strs = explode('\\', $class);
@@ -30,5 +29,3 @@ class CertCaptureTest
 
 $certCaptureTest = new CertCaptureTest();
 $certCaptureTest->testCertCapture();
-
-

@@ -1,0 +1,13 @@
+{
+  "name": "woodyxiong/swoole-cert-capture",
+  "description": "use PHP script and Swoole extension to get https certificate",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "kui.xiong",
+      "email": "kui.xiong@baishancloud.com"
+    }
+  ],
+  "require": {}
+}

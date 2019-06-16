@@ -6,14 +6,6 @@ use CertCapture\Lib\CertCaptureException;
 use CertCapture\Lib\CertClient;
 use Co;
 
-
-spl_autoload_register(function ($class) {
-    $strs = explode('\\', $class);
-    $filename = $strs[1] . '/' . $strs[2] . '.php';
-    include_once $filename;
-});
-
-
 class CertCapture
 {
     public $targetIp;
@@ -67,15 +59,3 @@ class CertCapture
         return $cert;
     }
 }
-
-//include 'Lib/CertClient.php';
-require_once 'Lib/CertCaptureException.php';
-require_once 'Lib/SslHandshakeData.php';
-require_once 'HandshakeNodes/Node.php';
-require_once 'HandshakeNodes/CertificateNode.php';
-require_once 'HandshakeNodes/CertificatesNode.php';
-require_once 'HandshakeNodes/Certificate.php';
-$certCapture = new CertCapture("ww1.sinaimg.com", "218.92.152.11", 443, 3);
-//$certCapture = new CertCapture("www.qiniu.com", "218.92.152.11", 443);
-$cert = $certCapture->getCert();
-var_dump($cert);

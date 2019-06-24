@@ -1,1 +1,7 @@
 language: php
+env:
+  - APP_DEBUG=false
+install:
+  - composer install --prefer-dist --optimize-autoloader --quiet
+script:
+  - phpunit -c Test/phpunit.xml --coverage-text

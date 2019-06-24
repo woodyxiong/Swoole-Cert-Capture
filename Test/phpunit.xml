@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<phpunit bootstrap="./phpunit.php">
+    <testsuites>
+        <testsuite name="cert-capture-test">
+            <!--<directory>-->
+                <file>CertCaptureTest.php</file>
+            <!--</directory>-->
+        </testsuite>
+    </testsuites>
+</phpunit>

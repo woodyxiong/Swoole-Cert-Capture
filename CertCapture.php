@@ -23,7 +23,6 @@ class CertCapture
 
     /**
      * php_get_cert main()
-     * @throws Lib\CertCaptureException
      */
     public function getCert()
     {

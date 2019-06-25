@@ -20,7 +20,6 @@ class CertClient
     /**
      * static get cert when cert is exist
      * @return string
-     * @throws CertCaptureException
      */
     public static function getCert()
     {
@@ -80,7 +79,6 @@ class CertClient
 
     /**
      * receive and parse when detect handshake packet
-     * @param $client
      * @param $data
      * @throws \CertCapture\Lib\CertCaptureException
      */

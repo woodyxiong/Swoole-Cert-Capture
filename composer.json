@@ -3,13 +3,13 @@
     "description": "use PHP script and Swoole extension to get https certificate",
     "type": "library",
     "require": {
-        "phpunit/phpunit": "^8.2"
+        "phpunit/phpunit": "6.5.8"
     },
     "license": "MIT",
     "authors": [
         {
             "name": "WoodyXiong",
-            "email": "kui.xiong@baishancloud.com"
+            "email": "zuosixiaoshenxian@gmail.com"
         }
     ]
 }

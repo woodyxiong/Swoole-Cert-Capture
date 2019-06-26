@@ -3,5 +3,7 @@ env:
   - APP_DEBUG=false
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
+  - composer update
+  - phpunit --version
 script:
   - phpunit -c Test/phpunit.xml --coverage-text

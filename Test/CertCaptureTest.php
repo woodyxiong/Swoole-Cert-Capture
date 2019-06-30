@@ -3,8 +3,13 @@
 namespace CertCapture\Test;
 
 use CertCapture\CertCapture;
+use CertCapture\Lib\CertCaptureException;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState         disabled
+ */
 class CertCaptureTest extends TestCase
 {
     public function setUp()
@@ -14,14 +19,39 @@ class CertCaptureTest extends TestCase
         spl_autoload_register('CertCapture\Test\CertCaptureTest::autoload');
     }
 
-    public function testQQ()
+    public function testBaishancloud()
     {
-        $certCapture=new CertCapture("www.qq.com","183.3.226.35",443,0.5);
-//        $tencentCert=$certCapture->getCert();
+        $certCapture = new CertCapture("www.baishancloud.com", "27.148.207.55", 443, 30);
+        try {
+            $bsCert = $certCapture->getCert();
+        } catch (CertCaptureException $e) {
+            var_dump($e->getMessage());
+        }
+        $certData = openssl_x509_parse($bsCert);
+        $this->assertEquals("13607417090538080172664752368035947002", $certData['serialNumber']);
+    }
 
-        $this->assertEquals(1,1);
-//        $certData=openssl_x509_parse($tencentCert);
-//        $this->assertEquals("10862042356945370696581816798",$certData['serialNumber']);
+    public function testBaidu()
+    {
+        $certCapture = new CertCapture("www.baidu.com", "", 443, 30);
+        try {
+            $baiduCert = $certCapture->getCert();
+        } catch (CertCaptureException $e) {
+            var_dump($e->getMessage());
+        }
+
+        $certData = openssl_x509_parse($baiduCert);
+        $this->assertEquals("13905183944940287882518820211", $certData['serialNumber']);
+    }
+
+    public function testTimeOut()
+    {
+        $certCapture = new CertCapture("github.com", "", 443, 0.001);
+        try {
+            $githubCert = $certCapture->getCert();
+        } catch (CertCaptureException $e) {
+            $this->assertEquals("connect error", $e->getMessage());
+        }
     }
 
     public static function autoload($class)

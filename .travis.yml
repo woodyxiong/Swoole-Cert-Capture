@@ -1,9 +1,10 @@
 language: php
-env:
-  - APP_DEBUG=false
-install:
-  - composer install --prefer-dist --optimize-autoloader --quiet
-  - composer update
-  - phpunit --version
+services:
+- docker
+before_install:
+- docker pull woodyxiong/php7.2-swoole:latest
+- pwd
+- docker run -it -v $(pwd):/data/www woodyxiong/php7.2-swoole:latest composer install
+
 script:
-  - phpunit -c Test/phpunit.xml --coverage-text
+- docker run -it -v $(pwd):/data/www woodyxiong/php7.2-swoole:latest vendor/bin/phpunit -c Test/phpunit.xml --coverage-text

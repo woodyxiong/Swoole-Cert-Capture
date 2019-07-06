@@ -28,7 +28,7 @@ class CertCaptureTest extends TestCase
             var_dump($e->getMessage());
         }
         $certData = openssl_x509_parse($bsCert);
-        $this->assertEquals("13607417090538080172664752368035947002", $certData['serialNumber']);
+        $this->assertEquals("20465945815246023917054040487954357696", $certData['serialNumber']);
     }
 
     public function testBaidu()
